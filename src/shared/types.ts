@@ -1,50 +1,65 @@
 export type Role = 'PITCHER' | 'BATTER';
 export type Element = 'FIRE' | 'WATER' | 'GRASS';
 export type SpeedCategory = 'SLOW' | 'NORMAL' | 'FAST';
-export type RoundOutcome = 'HR' | 'FOUL' | 'STRIKE' | 'BAT_BREAK';
+export type Phase = 'LOBBY' | 'WAIT_PITCHER' | 'WAIT_BATTER' | 'REVEAL' | 'FINISHED' | 'DISCONNECTED';
+export type Winner = Role | undefined;
 
 export interface Player {
   id: string;
   token: string;
+  isHost: boolean;
+  role: Role;
   connected: boolean;
   lastSeenAt: number;
-  role: Role;
+}
+
+export interface PitchInput {
+  element: Element;
+  speedRaw: number;
+  useMagic: boolean;
+}
+
+export interface BatInput {
+  element: Element;
+  timing: number | null;
 }
 
 export interface RoundInput {
-  pitcher?: {
-    element: Element;
-    speedRaw: number;
-    useMagic: boolean;
-  };
-  batter?: {
-    element: Element;
-    timing: number | null;
-  };
+  pitcher?: PitchInput;
+  batter?: BatInput;
 }
 
 export interface RoundResult {
-  outcome: RoundOutcome;
+  kind: 'HR' | 'FOUL' | 'STRIKE' | 'BAT_BREAK';
+  message: string;
   diff: number;
   speedCategory: SpeedCategory;
   center: number;
-  magicUsed: boolean;
   justMeet: boolean;
-  message: string;
+  magicUsed: boolean;
+  ballIndex: number;
 }
 
 export interface GameState {
   roomCode: string;
-  hostId: string;
-  status: 'LOBBY' | 'IN_GAME' | 'RESULT';
   createdAt: number;
+  hostId: string;
   hostRole: Role;
-  players: Player[];
-  pitchCount: number;
-  maxPitches: number;
-  magicUsedByPitcher: boolean;
+  phase: Phase;
+  pausedPhase?: Phase;
+  players: {
+    host?: Player;
+    guest?: Player;
+  };
+  ballIndex: number;
+  maxBalls: number;
+  currentBallStartedAt: number;
   currentInput: RoundInput;
+  magicUsed: boolean;
   lastResult?: RoundResult;
-  winner?: Role;
-  rematchVotes: Record<string, boolean>;
+  winner: Winner;
+  rematch: {
+    host: boolean;
+    guest: boolean;
+  };
 }
