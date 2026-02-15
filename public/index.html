@@ -5,54 +5,66 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>1打席野球バトル</title>
   <style>
-    body { font-family: sans-serif; background: linear-gradient(120deg,#122,#245); color: #fff; margin: 0; }
-    .wrap { max-width: 780px; margin: 0 auto; padding: 20px; }
-    .card { background: rgba(0,0,0,.35); border-radius: 16px; padding: 18px; margin-bottom: 14px; }
-    .nav { font-size: 1.5rem; font-weight: 800; color: #ffe655; }
-    button { border: 0; border-radius: 12px; padding: 10px 16px; margin: 6px; font-size: 1rem; font-weight: 700; }
-    .big { font-size: 1.2rem; padding: 14px 20px; }
+    body { font-family: 'Hiragino Kaku Gothic ProN', sans-serif; margin: 0; background: radial-gradient(circle at top, #2654d6, #142245); color: #fff; }
+    .wrap { max-width: 820px; margin: 0 auto; padding: 20px; }
+    .card { background: rgba(0,0,0,.35); border-radius: 18px; padding: 18px; margin-bottom: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.3); }
     .hidden { display: none; }
+    h1 { text-align: center; letter-spacing: .08em; }
+    .nav { font-size: 2rem; font-weight: 900; color: #ffe867; text-shadow: 0 0 8px rgba(255,232,103,.7); }
+    button { border: 0; border-radius: 14px; padding: 12px 18px; margin: 6px; font-size: 1.1rem; font-weight: 800; cursor: pointer; }
+    .primary { background: #ff7f11; color: #fff; }
+    .big { font-size: 1.4rem; padding: 14px 20px; }
+    .elements button { min-width: 120px; }
+    #resultText { min-height: 54px; font-size: 2rem; font-weight: 900; text-align: center; animation: pop .45s ease; }
+    .flash { animation: shake .35s linear; }
+    @keyframes pop { from { transform: scale(.75); opacity: .4; } to { transform: scale(1); opacity: 1; } }
+    @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
   </style>
 </head>
 <body>
   <div class="wrap">
     <h1>⚾ 1打席野球バトル</h1>
-    <div id="home" class="card">
-      <p class="nav">4けたを つたえよう！</p>
-      <button id="create" class="big">ルームをつくる</button>
-      <input id="joinCode" maxlength="4" placeholder="1234" />
-      <button id="join" class="big">ルームに入る</button>
-    </div>
 
-    <div id="lobby" class="card hidden">
-      <p>ルーム: <b id="roomCode"></b></p>
+    <section id="home" class="card">
+      <p class="nav">4けたを つたえよう！</p>
+      <button id="create" class="primary big">ルームをつくる！</button>
+      <div>
+        <input id="joinCode" maxlength="4" placeholder="1234" />
+        <button id="join" class="primary">ルームに入る！</button>
+      </div>
+    </section>
+
+    <section id="lobby" class="card hidden">
+      <p>ルームコード: <b id="roomCode"></b></p>
       <p class="nav" id="lobbyNav">やくわりを えらんでね！</p>
       <div id="roleSel">
-        <button data-role="PITCHER">投手</button>
-        <button data-role="BATTER">打者</button>
+        <button data-role="PITCHER">投手をやる！</button>
+        <button data-role="BATTER">打者をやる！</button>
       </div>
       <p id="lobbyWait">あいてを まってるよ！</p>
-    </div>
+    </section>
 
-    <div id="game" class="card hidden">
+    <section id="game" class="card hidden">
       <p id="pitchLabel"></p>
       <p class="nav" id="phaseNav"></p>
-      <div>
-        <button data-el="FIRE">🔥炎</button>
-        <button data-el="WATER">💧水</button>
-        <button data-el="GRASS">🌿草</button>
+      <div class="elements">
+        <button data-el="FIRE">🔥 ほのお</button>
+        <button data-el="WATER">💧 みず</button>
+        <button data-el="GRASS">🌿 くさ</button>
       </div>
-      <button id="spam">れんだして！</button>
-      <button id="magic">まきゅう！</button>
-      <button id="hit">いま！うて！</button>
+      <div>
+        <button id="spam" class="primary">れんだして！</button>
+        <button id="magic" class="primary">まきゅう！</button>
+        <button id="hit" class="primary">いま！ うて！</button>
+      </div>
       <p id="resultText"></p>
-    </div>
+    </section>
 
-    <div id="result" class="card hidden">
+    <section id="result" class="card hidden">
       <p class="nav" id="winner"></p>
-      <button id="rematch">もう1回！</button>
+      <button id="rematch" class="primary big">もう1回！</button>
       <p id="rematchWait"></p>
-    </div>
+    </section>
   </div>
   <script type="module" src="./main.js"></script>
 </body>
