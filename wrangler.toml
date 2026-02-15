@@ -1,0 +1,11 @@
+name = "baseball-game"
+compatibility_date = "2025-02-01"
+pages_build_output_dir = "public"
+
+[[durable_objects.bindings]]
+name = "ROOM_DO"
+class_name = "RoomDO"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["RoomDO"]
