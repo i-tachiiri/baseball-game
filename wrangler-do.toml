@@ -1,8 +1,11 @@
-name = "baseball-game"
+name = "baseball-game-do"
 compatibility_date = "2025-02-01"
-pages_build_output_dir = "public"
+main = "do-worker.ts"
 
 [[durable_objects.bindings]]
 name = "ROOM_DO"
 class_name = "RoomDO"
-script_name = "baseball-game-do"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["RoomDO"]

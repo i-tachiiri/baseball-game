@@ -32,7 +32,7 @@ export async function forward(context: EventContext<Env, string, unknown>, route
 
   const init: RequestInit = { method, headers };
   if (method !== 'GET') {
-    init.body = route === '/create' ? '{}' : await request.text();
+    init.body = route === '/create' ? JSON.stringify({ roomCode }) : await request.text();
   }
   return stub.fetch(`https://room${route}`, init);
 }

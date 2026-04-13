@@ -16,7 +16,7 @@ export class RoomDO implements DurableObject {
   async fetch(req: Request): Promise<Response> {
     const path = new URL(req.url).pathname;
 
-    if (path === '/create') return this.createRoom();
+    if (path === '/create') return this.createRoom(req);
     if (path === '/join') return this.joinRoom();
 
     await this.loadState();
@@ -47,8 +47,9 @@ export class RoomDO implements DurableObject {
     return [state.players.host, state.players.guest].filter((player): player is Player => Boolean(player));
   }
 
-  private async createRoom(): Promise<Response> {
-    const roomCode = this.state.id.toString().slice(-4).padStart(4, '0');
+  private async createRoom(req: Request): Promise<Response> {
+    const body = (await req.json()) as { roomCode?: string };
+    const roomCode = body.roomCode ?? this.state.id.toString().slice(-4).padStart(4, '0');
     const hostId = crypto.randomUUID();
     const now = Date.now();
     const host: Player = {
